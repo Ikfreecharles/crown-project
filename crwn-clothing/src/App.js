@@ -34,7 +34,7 @@ function App({ setCurrentUser, currentUser, toggleCartHidden, hidden }) {
             unsubscribeFromAuth();
          };
       });
-   }, []);
+   }, [setCurrentUser]);
 
    return (
       <div onClick={() => !hidden && toggleCartHidden()}>

@@ -7,17 +7,28 @@ import { BrowserRouter } from "react-router-dom";
 import { Provider } from "react-redux";
 import { PersistGate } from "redux-persist/integration/react";
 import { store, persistor } from "./redux/Store";
+import { ApolloProvider, ApolloClient, InMemoryCache } from "@apollo/client";
+import { resolvers, typeDefs } from "./graphql/resolvers";
+
+const client = new ApolloClient({
+   uri: "http://localhost:4000/graphql",
+   cache: new InMemoryCache(),
+   typeDefs,
+   resolvers,
+});
 
 ReactDOM.render(
-   <Provider store={store}>
-      <React.StrictMode>
-         <BrowserRouter>
-            <PersistGate persistor={persistor}>
-               <App />
-            </PersistGate>
-         </BrowserRouter>
-      </React.StrictMode>
-   </Provider>,
+   <ApolloProvider client={client}>
+      <Provider store={store}>
+         <React.StrictMode>
+            <BrowserRouter>
+               <PersistGate persistor={persistor}>
+                  <App />
+               </PersistGate>
+            </BrowserRouter>
+         </React.StrictMode>
+      </Provider>
+   </ApolloProvider>,
    document.getElementById("root")
 );
 
